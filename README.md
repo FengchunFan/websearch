@@ -8,4 +8,6 @@ Building search engine using python Flask and indexing results using PyLucene.
 
 reference:
 
-https://medium.com/analytics-vidhya/how-to-build-a-simple-search-engine-using-flask-4f3c01fe80fa
+https://www.freecodecamp.org/news/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492/
+
+https://flask.palletsprojects.com/en/0.12.x/quickstart/#rendering-templates
