@@ -17,7 +17,7 @@ from org.apache.lucene.search import IndexSearcher, BoostQuery, Query
 from org.apache.lucene.search.similarities import BM25Similarity
 
 #import the database 
-data_path = './static/sample.csv'
+data_path = './data/sample.csv'
 sample_doc = []
 with open(data_path, 'r') as file:
     reader = csv.reader(file)
