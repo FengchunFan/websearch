@@ -74,6 +74,7 @@ def retrieve(storedir, query):
     #topkdocs = []
     with open("./static/result.csv", mode='a', newline='') as file:
         file.truncate(0)
+        file.close()
     for hit in topDocs:
         doc = searcher.doc(hit.doc)
         data_title = doc.get("Title")

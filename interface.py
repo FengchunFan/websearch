@@ -8,6 +8,7 @@ def main():
 
 #testings using output0.csv
 @app.route("/output0.csv")
+#@app.route("/result.csv")
 def retrieve_result():
     return send_from_directory("static", "output0.csv")
     #return send_from_directory("static", "result.csv")
