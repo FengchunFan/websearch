@@ -17,7 +17,7 @@ from org.apache.lucene.search import IndexSearcher, BoostQuery, Query
 from org.apache.lucene.search.similarities import BM25Similarity
 
 #import the database 
-data_path = './data/sample.csv'
+data_path = './data/output0.csv'
 sample_doc = []
 with open(data_path, 'r') as file:
     reader = csv.reader(file)
@@ -50,7 +50,7 @@ def create_index(dir):
     contextType.setTokenized(True)
     contextType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS)
 
-    #retrieve document samples from output.csv files
+    #retrieve document by document from the stored array
     for sample in sample_doc:
         title = sample['title']
         context = sample['context']
@@ -71,9 +71,21 @@ def retrieve(storedir, query):
     parsed_query = parser.parse(query)
 
     topDocs = searcher.search(parsed_query, 10).scoreDocs
-    topkdocs = []
+    #topkdocs = []
+    with open("./static/result.csv", mode='a', newline='') as file:
+        file.truncate(0)
     for hit in topDocs:
         doc = searcher.doc(hit.doc)
+        data_title = doc.get("Title")
+        data_text = doc.get("Context")
+        data_url = doc.get("Url")
+        score = hit.score
+        data = [data_title, data_text, data_url, score]
+        with open("./static/result.csv", mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([str(item).replace('\n', '') for item in data])
+                file.close()
+        '''
         topkdocs.append({
             "score": hit.score,
             "title": doc.get("Title"),
@@ -82,9 +94,11 @@ def retrieve(storedir, query):
         })
     
     print(topkdocs)
+    '''
 
 
 lucene.initVM(vmargs=['-Djava.awt.headless=true'])
 create_index('lucene_index/')
-retrieve('lucene_index/', 'riverside')
+query_terms = "UC Riverside"
+retrieve('lucene_index/', query_terms)
 

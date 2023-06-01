@@ -16,7 +16,8 @@ from org.apache.lucene.index import FieldInfo, IndexWriter, IndexWriterConfig, I
 from org.apache.lucene.search import IndexSearcher, BoostQuery, Query
 from org.apache.lucene.search.similarities import BM25Similarity
 
-data_path = './static/sample.csv'
+#import the database 
+data_path = './data/output0.csv'
 sample_doc = []
 with open(data_path, 'r') as file:
     reader = csv.reader(file)
@@ -70,9 +71,21 @@ def retrieve(storedir, query):
     parsed_query = parser.parse(query)
 
     topDocs = searcher.search(parsed_query, 10).scoreDocs
-    topkdocs = []
+    #topkdocs = []
+    with open("./static/result.csv", mode='a', newline='') as file:
+        file.truncate(0)
     for hit in topDocs:
         doc = searcher.doc(hit.doc)
+        data_title = doc.get("Title")
+        data_text = doc.get("Context")
+        data_url = doc.get("Url")
+        score = hit.score
+        data = [data_title, data_text, data_url, score]
+        with open("./static/result.csv", mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([str(item).replace('\n', '') for item in data])
+                file.close()
+        '''
         topkdocs.append({
             "score": hit.score,
             "title": doc.get("Title"),
@@ -81,9 +94,10 @@ def retrieve(storedir, query):
         })
     
     print(topkdocs)
+    '''
 
 
 lucene.initVM(vmargs=['-Djava.awt.headless=true'])
-create_index('sample_lucene_index/')
-retrieve('sample_lucene_index/', 'riverside')
+create_index('lucene_index/')
+retrieve('lucene_index/', 'UC Riverside')
 
