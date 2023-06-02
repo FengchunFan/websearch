@@ -1,3 +1,4 @@
+#file modified based on the sample provided by Mr.SHIHAB RASHID from CS172 in UC riverside
 #export FLASK_APP = interface
 #flask run -h 0.0.0.0 -p 8888
 
