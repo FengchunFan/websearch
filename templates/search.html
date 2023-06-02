@@ -29,23 +29,21 @@
       function Search(){
         var keyword = document.querySelector('.live-search-box').value;
         var request = new XMLHttpRequest();
-        request.open("GET", "output0.csv", true);
+        request.open("GET", "result.csv", true);
         request.onreadystatechange = function() {
           if (request.readyState === 4 && request.status === 200) {
             var rows = request.responseText.split("\n");
             var table = document.getElementById("searchResults");
             table.innerHTML = "";
             var count = 0;
-            for (var i = 1; i < rows.length && count < 11; i++) {
-              if (rows[i].includes(keyword)) {
-                var row = document.createElement("tr");
-                var cell = document.createElement("td");
-                cell.textContent = rows[i];
-                row.appendChild(cell);
-                table.appendChild(row);
-                table.appendChild(document.createElement("br"));
-                count++;      
-              }
+            for (var i = 0; i < rows.length && count < 10; i++) {
+              var row = document.createElement("tr");
+              var cell = document.createElement("td");
+              cell.textContent = rows[i];
+              row.appendChild(cell);
+              table.appendChild(row);
+              table.appendChild(document.createElement("br"));
+              count++;      
             }
           }
         };
