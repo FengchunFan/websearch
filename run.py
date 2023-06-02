@@ -3,7 +3,7 @@
 #flask run -h 0.0.0.0 -p 8888
 #http://169.235.31.51:8888
 
-#TODO: make interface nicer? add hyperlink, query through title as well, etc
+#TODO: make interface nicer? add hyperlink, query through title as well, additional information add weight, etc
 
 import logging, sys
 logging.disable(sys.maxsize)
@@ -85,8 +85,8 @@ def retrieve(storedir, query):
     for hit in topDocs:
         doc = searcher.doc(hit.doc)
         data_title = doc.get("Title")
-        data_text = doc.get("Context")
-        data_url = doc.get("Url")
+        data_text = " " + doc.get("Context")
+        data_url = " " + doc.get("Url")
         score = hit.score
         data = [data_title, data_text, data_url, score]
         with open("./static/result.csv", mode='a', newline='') as file:
